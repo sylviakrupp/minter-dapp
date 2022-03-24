@@ -1,50 +1,5 @@
 let accounts;
 
-// METAMASK CONNECTION
-window.addEventListener("DOMContentLoaded", async () => {
-  const welcomeH1 = document.getElementById("welcomeH1");
-  const welcomeH2 = document.getElementById("welcomeH2");
-  const welcomeP = document.getElementById("welcomeP");
-
-  welcomeH1.innerText = welcome_h1;
-  welcomeH2.innerText = welcome_h2;
-  welcomeP.innerHTML = welcome_p;
-
-  if (window.ethereum) {
-    window.web3 = new Web3(window.ethereum);
-    checkChain();
-  } else if (window.web3) {
-    window.web3 = new Web3(window.web3.currentProvider);
-  }
-
-  if (window.web3) {
-    // Check if User is already connected by retrieving the accounts
-    await window.web3.eth.getAccounts().then(async (addr) => {
-      accounts = addr;
-    });
-  }
-
-  const splide = new Splide(".splide", {
-    type: "loop",
-    arrows: false,
-    perMove: 3,
-    pagination: false,
-    autoplay: true,
-    direction: 'ttb',
-    height: "calc(100vh - 90px)",
-    width: '30vw',
-    autoHeight: true,
-  });
-  splide.mount();
-
-  updateConnectStatus();
-  if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-    window.ethereum.on("accountsChanged", (newAccounts) => {
-      accounts = newAccounts;
-      updateConnectStatus();
-    });
-  }
-});
 
 const updateConnectStatus = async () => {
   const onboarding = new MetaMaskOnboarding();
